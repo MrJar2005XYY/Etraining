@@ -1,0 +1,695 @@
+/* ===== 基础重置 ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #4A90D9;
+  --primary-dark: #357ABD;
+  --primary-light: #E8F0FE;
+  --bg: #F5F7FA;
+  --card-bg: #FFFFFF;
+  --text: #333333;
+  --text-light: #888888;
+  --border: #E5E7EB;
+  --success: #52C41A;
+  --danger: #FF4D4F;
+  --warning: #FAAD14;
+  --radius: 12px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 70px;
+}
+
+/* ===== 底部导航 ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  background: var(--card-bg);
+  border-top: 1px solid var(--border);
+  padding: 6px 0 env(safe-area-inset-bottom, 6px);
+  z-index: 100;
+}
+
+.nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 0;
+  border: none;
+  background: none;
+  color: var(--text-light);
+  font-size: 11px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.nav-btn .nav-icon {
+  font-size: 20px;
+}
+
+.nav-btn.active {
+  color: var(--primary);
+}
+
+.nav-btn:hover {
+  color: var(--primary);
+}
+
+/* ===== 页面容器 ===== */
+.page-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+/* ===== 页面头部 ===== */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0 16px;
+}
+
+.page-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* ===== 按钮 ===== */
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+.btn-large {
+  padding: 14px 32px;
+  font-size: 17px;
+  border-radius: 12px;
+  width: 100%;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover,
+.btn-outline.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.btn-icon {
+  background: none;
+  border: 1.5px solid var(--border);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text);
+  transition: all 0.2s;
+}
+
+.btn-icon:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 6px;
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--danger);
+  border: 1.5px solid var(--danger);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* ===== 输入框 ===== */
+.text-input {
+  border: 1.5px solid var(--border);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+  background: var(--card-bg);
+  width: 100%;
+}
+
+.text-input:focus {
+  border-color: var(--primary);
+}
+
+.select-input {
+  border: 1.5px solid var(--border);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  background: var(--card-bg);
+  cursor: pointer;
+}
+
+.select-input:focus {
+  border-color: var(--primary);
+}
+
+/* ===== 首页 ===== */
+.hero-card {
+  background: linear-gradient(135deg, var(--primary), #6DB3F8);
+  color: #fff;
+  padding: 28px 24px;
+  border-radius: var(--radius);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.hero-date {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 8px;
+}
+
+.hero-summary {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.hero-card .btn-primary {
+  background: #fff;
+  color: var(--primary);
+}
+
+.hero-card .btn-primary:hover {
+  background: #f0f0f0;
+}
+
+.recent-section h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recent-item {
+  background: var(--card-bg);
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recent-item .ri-date {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.recent-item .ri-info {
+  text-align: right;
+}
+
+.recent-item .ri-duration {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.recent-item .ri-count {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.empty-hint {
+  text-align: center;
+  color: var(--text-light);
+  padding: 24px 0;
+  font-size: 14px;
+}
+
+/* ===== 训练页 ===== */
+.workout-timer-bar {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+
+.timer-display {
+  font-size: 36px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+}
+
+.timer-display.paused {
+  opacity: 0.5;
+}
+
+.add-exercise-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.add-exercise-section .select-input {
+  flex: 1;
+}
+
+.workout-exercises-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 动作卡片 */
+.exercise-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.exercise-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.exercise-card-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.exercise-card-header .btn-text {
+  font-size: 13px;
+  padding: 4px 8px;
+}
+
+.sets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.exercise-card .btn-primary {
+  margin-top: 12px;
+}
+
+.exercise-timer {
+  margin-top: 8px;
+}
+
+.set-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--bg);
+  border-radius: 8px;
+}
+
+.set-label {
+  font-size: 13px;
+  color: var(--text-light);
+  min-width: 40px;
+}
+
+.set-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.set-controls .btn-icon {
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+}
+
+.set-value {
+  font-size: 18px;
+  font-weight: 600;
+  min-width: 40px;
+  text-align: center;
+}
+
+.reps-input {
+  width: 52px;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 4px 0;
+  background: var(--card-bg);
+  color: var(--text);
+  -moz-appearance: textfield;
+}
+
+.reps-input::-webkit-inner-spin-button,
+.reps-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quick-reps {
+  display: flex;
+  gap: 4px;
+  margin-left: 4px;
+}
+
+.set-unit {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.set-done {
+  margin-left: auto;
+}
+
+/* 计时类动作 */
+.exercise-timer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.exercise-timer .timer-display {
+  font-size: 28px;
+}
+
+/* 休息弹窗 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.rest-modal {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 32px 28px;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.rest-modal h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: var(--text-light);
+}
+
+.rest-timer {
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+.rest-options {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.rest-options .btn-outline {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+/* ===== 动作库页 ===== */
+.add-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.add-form .text-input {
+  flex: 1;
+}
+
+.exercises-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.exercise-item {
+  background: var(--card-bg);
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exercise-item .ei-name {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.exercise-item .ei-type {
+  font-size: 13px;
+  color: var(--text-light);
+  background: var(--primary-light);
+  padding: 2px 10px;
+  border-radius: 10px;
+}
+
+.exercise-item .ei-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.exercise-edit {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.exercise-edit .text-input {
+  flex: 1;
+  min-width: 100px;
+}
+
+.exercise-edit .select-input {
+  width: 80px;
+}
+
+.exercise-edit-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* ===== 统计页 ===== */
+.stats-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--card-bg);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.chart-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+
+.chart-card h3 {
+  font-size: 15px;
+  margin-bottom: 12px;
+  color: var(--text-light);
+}
+
+.chart-card canvas {
+  width: 100% !important;
+  max-height: 250px;
+}
+
+.stats-summary {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.stats-summary .summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.stats-summary .summary-row:last-child {
+  border-bottom: none;
+}
+
+.stats-summary .summary-label {
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.stats-summary .summary-value {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 400px) {
+  .timer-display {
+    font-size: 28px;
+  }
+
+  .rest-timer {
+    font-size: 48px;
+  }
+
+  .add-form {
+    flex-wrap: wrap;
+  }
+
+  .add-form .text-input {
+    width: 100%;
+  }
+}
+
+/* ===== Toast 提示 ===== */
+.toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-size: 14px;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}

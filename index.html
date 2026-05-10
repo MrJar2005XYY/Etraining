@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>健身助手</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- 底部导航 -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-page="home">
+      <span class="nav-icon">&#9750;</span>
+      <span class="nav-label">首页</span>
+    </button>
+    <button class="nav-btn" data-page="workout">
+      <span class="nav-icon">&#9654;</span>
+      <span class="nav-label">训练</span>
+    </button>
+    <button class="nav-btn" data-page="exercises">
+      <span class="nav-icon">&#9783;</span>
+      <span class="nav-label">动作库</span>
+    </button>
+    <button class="nav-btn" data-page="stats">
+      <span class="nav-icon">&#9636;</span>
+      <span class="nav-label">统计</span>
+    </button>
+  </nav>
+
+  <!-- 页面容器 -->
+  <main class="page-container">
+
+    <!-- ===== 首页 ===== -->
+    <section id="page-home" class="page active">
+      <header class="page-header">
+        <h1>健身助手</h1>
+      </header>
+      <div class="home-content">
+        <div class="hero-card">
+          <p class="hero-date" id="home-date"></p>
+          <p class="hero-summary" id="home-summary">今天还没有训练记录</p>
+          <button class="btn-primary btn-large" id="btn-start-workout">开始训练</button>
+        </div>
+        <div class="recent-section">
+          <h2>最近训练</h2>
+          <div id="recent-workouts" class="recent-list">
+            <p class="empty-hint">暂无训练记录</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 训练页 ===== -->
+    <section id="page-workout" class="page">
+      <header class="page-header">
+        <h1>训练中</h1>
+        <button class="btn-text" id="btn-end-workout">结束训练</button>
+      </header>
+
+      <!-- 总时长计时器 -->
+      <div class="workout-timer-bar">
+        <div class="timer-display" id="workout-timer">00:00:00</div>
+        <div class="timer-controls">
+          <button class="btn-icon" id="btn-timer-pause" title="暂停/继续">&#10074;&#10074;</button>
+        </div>
+      </div>
+
+      <!-- 添加动作 -->
+      <div class="add-exercise-section">
+        <select id="exercise-select" class="select-input">
+          <option value="">-- 选择动作 --</option>
+        </select>
+        <button class="btn-primary" id="btn-add-exercise">添加动作</button>
+      </div>
+
+      <!-- 动作列表 -->
+      <div id="workout-exercises" class="workout-exercises-list"></div>
+
+      <!-- 组间休息弹窗 -->
+      <div id="rest-overlay" class="overlay hidden">
+        <div class="rest-modal">
+          <h2>组间休息</h2>
+          <div class="rest-timer" id="rest-timer">60</div>
+          <div class="rest-options">
+            <button class="btn-outline" data-rest="30">30秒</button>
+            <button class="btn-outline active" data-rest="60">60秒</button>
+            <button class="btn-outline" data-rest="90">90秒</button>
+            <button class="btn-outline" data-rest="120">120秒</button>
+          </div>
+          <button class="btn-primary" id="btn-skip-rest">跳过休息</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 动作库页 ===== -->
+    <section id="page-exercises" class="page">
+      <header class="page-header">
+        <h1>动作库</h1>
+      </header>
+      <div class="exercises-content">
+        <div class="add-form">
+          <input type="text" id="new-exercise-name" class="text-input" placeholder="动作名称">
+          <select id="new-exercise-type" class="select-input">
+            <option value="count">计次</option>
+            <option value="time">计时</option>
+          </select>
+          <button class="btn-primary" id="btn-add-new-exercise">添加</button>
+        </div>
+        <div id="exercises-list" class="exercises-list"></div>
+      </div>
+    </section>
+
+    <!-- ===== 统计页 ===== -->
+    <section id="page-stats" class="page">
+      <header class="page-header">
+        <h1>训练统计</h1>
+      </header>
+      <div class="stats-content">
+        <div class="stats-tabs">
+          <button class="tab-btn active" data-range="week">本周</button>
+          <button class="tab-btn" data-range="month">本月</button>
+          <button class="tab-btn" data-range="year">今年</button>
+        </div>
+        <div class="chart-card">
+          <h3>训练时长趋势</h3>
+          <canvas id="duration-chart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>计次动作训练量（次）</h3>
+          <canvas id="count-volume-chart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h3>计时动作训练量（分钟）</h3>
+          <canvas id="time-volume-chart"></canvas>
+        </div>
+        <div class="stats-summary" id="stats-summary"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/timer.js"></script>
+  <script src="js/exercises.js"></script>
+  <script src="js/workout.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
