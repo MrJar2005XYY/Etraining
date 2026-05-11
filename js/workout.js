@@ -4,17 +4,45 @@ const Workout = {
   _restShowing: false,
   startTime: null,
   exerciseRecords: [],
+  pendingExercises: [],
   _reps: {},
   _timers: {}, // { exerciseId: { seconds, interval, running } }
+  _quoteTimer: null,
+  _quoteIndex: 0,
+  _quotes: [],
+
+  BUILTIN_QUOTES: [
+    '坚持就是胜利，你比想象中更强大！',
+    '每一滴汗水都不会白流，继续加油！',
+    '今天的努力，是明天的骄傲。',
+    '没有做不到，只有想不到，冲！',
+    '你已经很棒了，再坚持一下！',
+    '突破自己的极限，你会遇见更好的自己。',
+    '运动不是为了改变身体，而是为了改变心态。',
+    '累就对了，舒服是留给不运动的人的。',
+    '每一次训练都是对自己的投资。',
+    '不要停下脚步，你离目标只差一步！',
+    '能坚持到这里，你已经超越了大多数人。',
+    '身体是革命的本钱，你在做最正确的事。',
+    '强者不是没有眼泪，而是含着眼泪依然奔跑。',
+    '今天的酸痛，是明天的力量。',
+    '你流的每一滴汗，都在塑造更好的自己。',
+    '别放弃，最精彩的部分往往在最后。',
+    '自律给你自由，坚持给你力量。',
+    '与其羡慕别人，不如超越自己。',
+  ],
 
   start() {
     this.active = true;
     this.startTime = Date.now();
-    this.exerciseRecords = [];
+    this.exerciseRecords = this.pendingExercises.slice();
+    this.pendingExercises = [];
     this._reps = {};
     this._timers = {};
     Timer.workout.reset();
     Timer.workout.start();
+    this.renderWorkoutExercises(document.getElementById('workout-exercises'));
+    this.startQuote();
   },
 
   end() {
@@ -36,6 +64,7 @@ const Workout = {
           exerciseId: r.exerciseId,
           exerciseName: ex ? ex.name : '未知',
           exerciseType: ex ? ex.type : 'count',
+          exerciseCategory: ex ? (ex.category || '未分类') : '未分类',
           sets: [...r.sets],
         };
       }),
@@ -44,15 +73,25 @@ const Workout = {
     Storage.addWorkout(record);
     this.active = false;
     this.exerciseRecords = [];
+    this.pendingExercises = [];
     this._timers = {};
+    this.stopQuote();
     Timer.workout.reset();
     return record;
   },
 
   addExercise(exerciseId) {
-    // 如果该动作已存在，清除旧记录后重新添加（防止残留数据阻塞）
-    this.exerciseRecords = this.exerciseRecords.filter(r => r.exerciseId !== exerciseId);
-    this.exerciseRecords.push({ exerciseId, sets: [] });
+    if (this.active) {
+      if (this.exerciseRecords.some(r => r.exerciseId === exerciseId)) {
+        return false;
+      }
+      this.exerciseRecords.push({ exerciseId, sets: [] });
+    } else {
+      if (this.pendingExercises.some(r => r.exerciseId === exerciseId)) {
+        return false;
+      }
+      this.pendingExercises.push({ exerciseId, sets: [] });
+    }
     return true;
   },
 
@@ -62,7 +101,11 @@ const Workout = {
       clearInterval(this._timers[exerciseId].interval);
       delete this._timers[exerciseId];
     }
-    this.exerciseRecords = this.exerciseRecords.filter(r => r.exerciseId !== exerciseId);
+    if (this.active) {
+      this.exerciseRecords = this.exerciseRecords.filter(r => r.exerciseId !== exerciseId);
+    } else {
+      this.pendingExercises = this.pendingExercises.filter(r => r.exerciseId !== exerciseId);
+    }
   },
 
   addSet(exerciseId, setData) {
@@ -71,14 +114,16 @@ const Workout = {
   },
 
   renderWorkoutExercises(container) {
-    if (!this.active) {
+    const records = this.active ? this.exerciseRecords : this.pendingExercises;
+    if (!records || records.length === 0) {
       container.innerHTML = '';
       return;
     }
 
-    container.innerHTML = this.exerciseRecords.map(rec => {
+    container.innerHTML = records.map(rec => {
       const ex = Exercises.getById(rec.exerciseId);
       const name = ex ? ex.name : (rec.exerciseName || '未知动作');
+      const category = ex ? (ex.category || '未分类') : '未分类';
       const isCount = (ex ? ex.type : (rec.exerciseType || 'count')) === 'count';
 
       const setsHtml = rec.sets.map((set, i) => `
@@ -119,7 +164,7 @@ const Workout = {
       return `
         <div class="exercise-card" data-exercise-card="${exId}">
           <div class="exercise-card-header">
-            <h3>${name} <span style="font-weight:normal;color:var(--text-light);font-size:13px;">${rec.sets.length}组</span></h3>
+            <h3>${name} <span class="ei-category">${category}</span> <span style="font-weight:normal;color:var(--text-light);font-size:13px;">${rec.sets.length}组</span></h3>
             <button class="btn-text" onclick="Workout.removeExerciseUI('${exId}')">移除</button>
           </div>
           <div class="sets-list">${setsHtml || '<p class="empty-hint" style="padding:8px 0;">暂无记录</p>'}</div>
@@ -231,6 +276,54 @@ const Workout = {
       osc.start();
       setTimeout(() => { osc.stop(); ctx.close(); }, 300);
     } catch {}
+  },
+
+  cancel() {
+    Timer.workout.pause();
+    Object.values(this._timers).forEach(t => clearInterval(t.interval));
+    this.hideRest();
+    this.stopQuote();
+    this.active = false;
+    this.exerciseRecords = [];
+    this.pendingExercises = [];
+    this._reps = {};
+    this._timers = {};
+    this.startTime = null;
+    Timer.workout.reset();
+  },
+
+  // 鼓励名言轮播
+  startQuote() {
+    const custom = Storage.getQuotes();
+    this._quotes = [...this.BUILTIN_QUOTES, ...custom];
+    // 随机打乱
+    for (let i = this._quotes.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this._quotes[i], this._quotes[j]] = [this._quotes[j], this._quotes[i]];
+    }
+    this._quoteIndex = 0;
+    this.showNextQuote();
+    this._quoteTimer = setInterval(() => this.showNextQuote(), 30000);
+  },
+
+  stopQuote() {
+    if (this._quoteTimer) {
+      clearInterval(this._quoteTimer);
+      this._quoteTimer = null;
+    }
+    const el = document.getElementById('motivational-quote');
+    if (el) el.textContent = '';
+  },
+
+  showNextQuote() {
+    const el = document.getElementById('motivational-quote');
+    if (!el || this._quotes.length === 0) return;
+    el.classList.add('fade-out');
+    setTimeout(() => {
+      el.textContent = this._quotes[this._quoteIndex % this._quotes.length];
+      this._quoteIndex++;
+      el.classList.remove('fade-out');
+    }, 500);
   },
 
   showToast(msg) {

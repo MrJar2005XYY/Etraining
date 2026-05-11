@@ -97,6 +97,10 @@ body {
   font-weight: 700;
 }
 
+.btn-cancel {
+  color: var(--danger) !important;
+}
+
 /* ===== 按钮 ===== */
 .btn-primary {
   background: var(--primary);
@@ -270,6 +274,7 @@ body {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   display: flex;
+  cursor: pointer;
   justify-content: space-between;
   align-items: center;
 }
@@ -281,6 +286,40 @@ body {
 
 .recent-item .ri-info {
   text-align: right;
+}
+
+.ri-actions {
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.workout-detail {
+  background: var(--bg-card);
+  border-radius: 0 0 var(--radius) var(--radius);
+  margin-top: -8px;
+  padding: 0 16px 12px;
+  font-size: 13px;
+}
+
+.detail-exercise {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-exercise:last-child {
+  border-bottom: none;
+}
+
+.detail-exercise-name {
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.detail-sets {
+  color: var(--text-light);
+  font-size: 12px;
+  padding-left: 8px;
 }
 
 .recent-item .ri-duration {
@@ -555,6 +594,16 @@ body {
   border-radius: 10px;
 }
 
+.exercise-item .ei-category,
+.exercise-card-header .ei-category {
+  font-size: 12px;
+  color: #fff;
+  background: var(--success);
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 6px;
+}
+
 .exercise-item .ei-actions {
   display: flex;
   gap: 8px;
@@ -576,9 +625,109 @@ body {
   width: 80px;
 }
 
+/* 筛选栏 */
+.filter-bar {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.filter-group:last-child {
+  margin-bottom: 0;
+}
+
+.filter-label {
+  font-size: 13px;
+  color: var(--text-light);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.filter-tag {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.filter-tag:active {
+  transform: scale(0.95);
+}
+
+.filter-tag.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
 .exercise-edit-actions {
   display: flex;
   gap: 6px;
+}
+
+/* 分类管理 */
+.category-manager {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+.category-manager h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.category-add-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.category-add-form .text-input {
+  flex: 1;
+}
+
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.category-item .btn-danger {
+  padding: 2px 6px;
+  font-size: 12px;
 }
 
 /* ===== 统计页 ===== */
@@ -651,6 +800,95 @@ body {
 .stats-summary .summary-value {
   font-weight: 600;
   font-size: 15px;
+}
+
+/* ===== 鼓励名言 ===== */
+.motivational-quote {
+  text-align: center;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: var(--text-light);
+  font-style: italic;
+  min-height: 20px;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.motivational-quote.fade-out {
+  opacity: 0;
+}
+
+.quote-section {
+  margin-top: 24px;
+}
+
+.quote-section h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.quote-add-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.quote-add-form .text-input {
+  flex: 1;
+}
+
+.quote-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quote-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: var(--bg);
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.quote-item span {
+  flex: 1;
+  margin-right: 8px;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+.quote-item .quote-tag {
+  font-size: 11px;
+  color: var(--text-light);
+  background: var(--primary-light);
+  padding: 1px 6px;
+  border-radius: 8px;
+  margin-left: 6px;
+  font-style: normal;
+}
+
+/* ===== 数据管理 ===== */
+.data-section {
+  margin-top: 24px;
+}
+
+.data-section h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.data-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.data-actions .btn-outline {
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
 }
 
 /* ===== 响应式 ===== */

@@ -14,10 +14,6 @@
       <span class="nav-icon">&#9750;</span>
       <span class="nav-label">首页</span>
     </button>
-    <button class="nav-btn" data-page="workout">
-      <span class="nav-icon">&#9654;</span>
-      <span class="nav-label">训练</span>
-    </button>
     <button class="nav-btn" data-page="exercises">
       <span class="nav-icon">&#9783;</span>
       <span class="nav-label">动作库</span>
@@ -48,6 +44,22 @@
             <p class="empty-hint">暂无训练记录</p>
           </div>
         </div>
+        <div class="data-section">
+          <h2>数据管理</h2>
+          <div class="data-actions">
+            <button class="btn-outline" id="btn-export">导出数据</button>
+            <button class="btn-outline" id="btn-import">导入数据</button>
+            <input type="file" id="import-file" accept=".json" style="display:none">
+          </div>
+        </div>
+        <div class="quote-section">
+          <h2>鼓励语录</h2>
+          <div class="quote-add-form">
+            <input type="text" id="new-quote-text" class="text-input" placeholder="输入自定义鼓励语">
+            <button class="btn-primary btn-sm" id="btn-add-quote">添加</button>
+          </div>
+          <div id="quote-list" class="quote-list"></div>
+        </div>
       </div>
     </section>
 
@@ -55,7 +67,10 @@
     <section id="page-workout" class="page">
       <header class="page-header">
         <h1>训练中</h1>
-        <button class="btn-text" id="btn-end-workout">结束训练</button>
+        <div>
+          <button class="btn-text btn-cancel" id="btn-cancel-workout">取消训练</button>
+          <button class="btn-text" id="btn-end-workout">结束训练</button>
+        </div>
       </header>
 
       <!-- 总时长计时器 -->
@@ -65,6 +80,9 @@
           <button class="btn-icon" id="btn-timer-pause" title="暂停/继续">&#10074;&#10074;</button>
         </div>
       </div>
+
+      <!-- 鼓励名言 -->
+      <div class="motivational-quote" id="motivational-quote"></div>
 
       <!-- 添加动作 -->
       <div class="add-exercise-section">
@@ -105,7 +123,31 @@
             <option value="count">计次</option>
             <option value="time">计时</option>
           </select>
+          <select id="new-exercise-category" class="select-input">
+          </select>
           <button class="btn-primary" id="btn-add-new-exercise">添加</button>
+        </div>
+        <div class="category-manager">
+          <h3>分类管理</h3>
+          <div class="category-add-form">
+            <input type="text" id="new-category-name" class="text-input" placeholder="新分类名称">
+            <button class="btn-primary btn-sm" id="btn-add-category">添加分类</button>
+          </div>
+          <div id="category-list" class="category-list"></div>
+        </div>
+        <div class="filter-bar">
+          <div class="filter-group">
+            <span class="filter-label">部位：</span>
+            <div id="filter-category" class="filter-tags"></div>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">类型：</span>
+            <div id="filter-type" class="filter-tags">
+              <button class="filter-tag active" data-value="all">全部</button>
+              <button class="filter-tag" data-value="count">计次</button>
+              <button class="filter-tag" data-value="time">计时</button>
+            </div>
+          </div>
         </div>
         <div id="exercises-list" class="exercises-list"></div>
       </div>
